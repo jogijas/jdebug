@@ -12,8 +12,10 @@ To contribute code changes, you need a local Linux development environment match
 
 ### 1. Install Dependencies
 Ensure you have standard C compilation tools and the Flat Assembler (`fasm`) installed to compile the test suite:
+
 ```bash
 # Ubuntu/Debian example
+
 sudo apt-get update
 sudo apt-get install build-essential gcc make fasm gcc-multilib
 ```
@@ -21,13 +23,15 @@ sudo apt-get install build-essential gcc make fasm gcc-multilib
 ### 2. Fork and Clone
 1. Fork the `jdebug` repository on GitHub.
 2. Clone your fork locally:
-   ```bash
+
+```bash
    git clone https://github.com
    cd jdebug
    ```
 
 ### 3. Build the Project
 Verify that the project builds natively using the provided `Makefile`:
+
 ```bash
 make clean && make
 ```
@@ -40,6 +44,7 @@ Before submitting a Pull Request, you **must** ensure your changes do not break 
 
 ### 1. Compile the Test Assembly Suites
 Run the Flat Assembler files located in the `tests/` directory:
+
 ```bash
 # Compile the 64-bit Test Stub
 fasm tests/hello64.asm tests/hello64
@@ -50,6 +55,7 @@ fasm tests/write.asm tests/write
 
 ### 2. Run the Debugger
 Test both binaries under `jdebug` to verify that `ptrace` control loop limits, software breakpoints, and bi-mode architecture auto-detection work perfectly:
+
 ```bash
 ./jdebug tests/hello64
 ./jdebug tests/write
@@ -57,6 +63,7 @@ Test both binaries under `jdebug` to verify that `ptrace` control loop limits, s
 
 ### 3. Clean Code Requirements
 If you add complex macros or operational layout tracking logic, avoid cluttering the repository with dangling inline comments. You can run the included helper utility to sanity-check script formats:
+
 ```bash
 bash scripts/strip_comments.sh src/jdebug.c
 ```
@@ -68,6 +75,7 @@ bash scripts/strip_comments.sh src/jdebug.c
 We follow a structured workflow to keep the main branch stable:
 
 1. **Create a Feature Branch:** Always create a descriptive branch off of `main`.
+
    ```bash
    git checkout -b feature/your-feature-name
    # OR
@@ -82,3 +90,5 @@ We follow a structured workflow to keep the main branch stable:
 ## 🛑 Code of Conduct
 
 Be respectful, collaborative, and constructive when interacting with other contributors in issues and code reviews. Our goal is to build a fast, secure, and educational tool for low-level systems programming.
+
+---
