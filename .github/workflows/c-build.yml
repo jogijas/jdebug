@@ -1,0 +1,47 @@
+name: C/C++ CI Build & Assembly Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Pull down the codebase into the clean Ubuntu virtual machine runner
+    - name: Checkout Repository Code
+      uses: actions/checkout@v4
+
+    # 2. Set up compiler suites and multi-arch components for i386 targets
+    - name: Install Compiler Dependencies and Multi-lib Packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential gcc make gcc-multilib
+
+    # 3. Pull down and configure the Flat Assembler binary safely
+    - name: Install Flat Assembler (FASM) via Package Manager
+      run: sudo apt-get install -y fasm
+
+    # 4. Clean previous environment binaries and execute the compiler Makefile pipeline
+    - name: Compile jdebug Native Binary via Makefile
+      run: |
+        make clean
+        make
+
+    # 5. Compile your low-level test suites to guarantee instruction structural layouts
+    - name: Build Flat Assembler (FASM) Binary Targets
+      run: |
+        fasm tests/hello64.asm tests/hello64
+        fasm tests/write.asm tests/write
+
+    # 6. Sanity check output verification to ensure binaries execute on the architecture
+    - name: Verify Binary Output Constraints
+      run: |
+        ls -la
+        ls -la tests/
+        file ./jdebug
+        file tests/hello64
+        file tests/write
